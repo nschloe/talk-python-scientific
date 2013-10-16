@@ -1,0 +1,801 @@
+<!--
+Google IO 2012/2013 HTML5 Slide Template
+
+Authors: Eric Bidelman <ebidel@gmail.com>
+         Luke Mahé <lukem@google.com>
+
+URL: https://code.google.com/p/io-2013-slides
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Internal talk</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+  <!--MathJax-->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    TeX: {
+      extensions: ["cancel.js"],
+      Macros: {
+        d: '\\text{d}',
+        e: '\\mathbf{e}',
+        x: '\\mathbf{x}',
+        u: '\\mathbf{u}',
+        C: '\\mathbb{C}',
+        A: '\\mathbf{A}',
+        B: '\\mathbf{B}',
+        J: '\\mathbf{J}',
+        L: '\\mathcal{L}',
+        N: '\\mathcal{N}',
+        n: '\\mathbf{n}',
+        i: '\\text{i}',
+        divv: '\\mathop{\\rm div}\\nolimits',
+        curl: '\\mathop{\\rm curl}\\nolimits',
+      }
+    },
+    skipStartupTypeset: true
+  });
+</script>
+
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+  </script>
+  <script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+    <script type="text/javascript">
+        document.addEventListener('slideenter', function(e) {
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, e.target]);
+            var next = document.getElementsByClassName('next')[0];
+            if (next) {
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub, next]);
+            }
+            var past = document.getElementsByClassName('past')[0];
+            if (past) {
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub, past]);
+            }
+        });
+    </script>
+  <!--MathJax end-->
+</head>
+<body style="opacity: 0">
+
+  <slides class="layout-widescreen">
+
+    <slide class="logoslide nobackground">
+        <article class="flexbox vcenter">
+            <!--span><img src="images/google_developers_logo.png"></span-->
+            <span><img src="images/matheon-w-text.svg"></span>
+        </article>
+    </slide>
+
+    <slide class="title-slide segue nobackground">
+        <aside class="gdbar"><img src="images/matheon-logo-color.svg"></aside>
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+        <hgroup class="auto-fadein">
+            <h1 data-config-title><!-- populated from slide_config.json --></h1>
+            <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+            <p>
+                <h2 data-config-presenter><!-- populated from slide_config.json --></h2>
+            </p>
+        </hgroup>
+    </slide>
+
+    <slide>
+        <hgroup>
+            <h2>Overview</h2>
+        </hgroup>
+        <article>
+    <img src="images/python-powered-h.svg" alt="Description" title="Description" style="float:right;margin:0 5px 0 0;" width="200px">
+          <ul>
+            <li>What is Python?</li>
+            <ul>
+            <li>Some general facts about Python</li>
+            <li>Programming 101</li>
+            <li>Selected packages for scientific computation:<br/>
+              NumPy, SciPy, matplotlib, SymPy, FEniCS/DOLFIN
+            </li>
+            </ul>
+          </ul>
+        <footer class="source">www.python.org/community/logos/</footer>
+        </article>
+    </slide>
+
+    <slide>
+        <hgroup>
+            <h2>What is Python?</h2>
+        </hgroup>
+        <article>
+          <ul>
+            <li>free software</li>
+            <li>universal programming language</li>
+            <li>many packages existing</li>
+            <li>easily extendable</li>
+          </ul>
+          <p>Python is (line many script languages) very intuitive.</p>
+          <ul>
+            <li>no explicit type specifications (<a href="https://de.wikipedia.org/wiki/Duck-Typing">duck typing</a>)</li>
+            <li>code blocks must be indented (leads to improved readability)</li>
+            <li>Very high-quality code.<br/>
+      0.005 defects per thousand lines of code:<br/>
+      "The open-source Python programming language [...] now surpasses that of
+its open-source and proprietary peers, according to a study published by
+development testing vendor Coverity." -- Sean M. Kerner, eweek.com
+</li>
+          </ul>
+        </article>
+    </slide>
+
+    <slide>
+      <hgroup>
+        <h2>The Python language: Popularity</h2>
+      </hgroup>
+      <article class="flexbox vcenter">
+        <img src="images/tpci_trends.png" alt="Description" title="Description" width=700px>
+        <footer class="source">source: http://www.tiobe.com/</footer>
+      </article>
+    </slide>
+
+    <slide>
+      <hgroup>
+        <h2>10 Reasons Python Rocks for Research</h2>
+      </hgroup>
+      <article>
+      <ul>
+      <li>Holistic Language Design<br/>
+      "Doing mathematical programming in a general-purpose language is
+easier than doing general-purpose programming in a mathematical language."
+      </li>
+      <li>Readability</li>
+      <li>Balance of High Level and Low Level Programming</li>
+      <li>Language Interoperability</li>
+      <li>Documentation System</li>
+      <li>Hierarchical Module System</li>
+      <li>Data Structures</li>
+      <li>Available Libraries</li>
+      <li>Testing Framework</li>
+      <li>Large user base</li>
+      </ul>
+      Possible downsides?
+      <ul>
+      <li>Not as popular as, e.g., MATLAB(r)<br/>
+      <li>...<br/>
+      </ul>
+      </article>
+        <footer class="source">http://www.stat.washington.edu/~hoytak/blog/whypython.html</footer>
+    </slide>
+
+    <slide>
+      <hgroup>
+        <h2>The language: "Hello world."</h2>
+      </hgroup>
+      <article>
+        <pre class="prettyprint" data-lang="python">
+print('Hello world!')
+a = 42                           # integer
+b = 42 / 21 + 10                 # = 12
+my_list = [1, 3, 'Hello World!'] # list: all types permitted!
+print(my_list[0])                # 0-based indexing
+for i in range(4):               # i in 0,...,3
+    print(i)
+for elem in my_list:
+    print(elem)
+d = { 'Hallo': 'hello',       # dictionary ("map")
+      'Welt': 'world',
+      42: 'fourty-two'}
+print(d['Hallo'])             # -> hello
+tuple = (4,3,1)
+if tuple == (4,):             # easy to compare!
+    print('yeah')
+</pre>
+      </article>
+    </slide>
+
+    <slide>
+      <hgroup>
+        <h2>The language: functions, modules</h2>
+      </hgroup>
+      <article>
+        <pre class="prettyprint" data-lang="python">
+# mymodule.py
+def square(a):       # functions can be defined anywhere
+    return a*a       # with arbitrary names (like variables)
+
+def arnoldi(A, v, maxiter=10, ortho='mgs'):  # default arguments
+    # compute V, H
+    return V, H      # multiple return arguments
+</pre>
+        <pre class="prettyprint" data-lang="python">
+import mymodule      # import is possible anywhere in the code
+print( mymodule.square(3) )
+</pre>
+        <pre class="prettyprint" data-lang="python">
+from mymodule import square, arnoldi
+print( square(3) )
+V, H = arnoldi(A, v, ortho='house') # maxiter is set to default (10)
+</pre>
+      </article>
+    </slide>
+
+  <slide class="fill nobackground" style="background-image: url(images/package.jpg)">
+    <h2>Packages (modules, add-ons,...) </h2>
+    <footer class="source">source: getwebdesign.co.za/</footer>
+  </slide>
+
+    <slide>
+      <hgroup>
+        <h2>Package: NumPy</h2>
+      </hgroup>
+      <article>
+        <p>NumPy is <em>the</em> basis package for numerics (based on BLAS,
+        LAPACK, etc.).</p>
+        <pre class="prettyprint" data-lang="python">
+from numpy import array, ones, dot   # N-dim Arrays
+v = array([1,2,3])           # 1-dim arr, shape==(3,)
+v = ones(5)                  # 1-dim arr, shape==(5,)
+v = ones((5,1))              # 2-dim arr, shape==(5,1)
+A = array([[1,2,3],[4,5,6]]) # 2x3-matrix: 2-dim arr, shape==(2,3)
+A = ones((5,5))              # 5x5-matrix: 2-dim arr, shape==(5,5)
+b = dot(A, v)                # A*v
+</pre>
+        <p>The default data type in NumPy are <em>NumPy arrays</em>; there
+        are also <em>NumPy matrices</em>. The main difference is that one can
+        use the *-operator for matrix-matrix multiplication (as in MATLAB).
+        Many (especially the <a href="http://wiki.scipy.org/NumPy_for_Matlab_Users">NumPy community</a>) recommend <em>NumPy arrays</em>.</p>
+      </article>
+      <aside class="gdbar right bottom"><img src="images/numpylogo_med.png"></aside>
+    </slide>
+
+    <slide>
+      <hgroup>
+        <h2>Packages: NumPy (cont'd)</h2>
+      </hgroup>
+      <article>
+        <p>Well-known commands in NumPy:</p>
+        <ul>
+          <li>zeros, ones, diag, abs, linspace, ...</li>
+          <li><strong>module random:</strong> rand, randn, ...</li>
+          <li><strong>module linalg:</strong> solve, norm, eig, svd, lu, qr, cholesky, ...</li>
+          <li><strong>module polynomial:</strong> monomial, Chebyshev, Legendre, ...</li>
+        </ul>
+
+        <p>MATLAB's \-operator: solve(A,b).</p>
+        <p>For more info, see <a href="http://docs.scipy.org/doc/NumPy/reference/">NumPy documentation</a>.</p>
+      </article>
+      <aside class="gdbar right bottom"><img src="images/numpylogo_med.png"></aside>
+    </slide>
+
+    <slide>
+      <hgroup>
+        <h2>Packages: SciPy</h2>
+      </hgroup>
+      <article>
+        <iframe src="http://docs.scipy.org/doc/scipy/reference/"></iframe>
+      </article>
+    </slide>
+
+    <slide>
+      <hgroup>
+        <h2>Packages: SciPy (cont'd)</h2>
+      </hgroup>
+      <article>
+        <p>Interesting for us:</p>
+        <ul>
+          <li><strong>scipy.linalg:</strong> extended functionality: banded matrices, qz, matrix functions, ...</li>
+          <li><strong>scipy.sparse:</strong> several sparse matrix types, cg, gmres, eigs, ...</li>
+          <li><strong>scipy.optimize:</strong> simplex, newton, leastsq, ...</li>
+        </ul>
+
+        <p>For more info, see <a href="http://docs.scipy.org/doc/scipy/reference/">SciPy documentation</a>.</p>
+      </article>
+      <aside class="gdbar right bottom"><img src="images/scipyshiny_small.png"></aside>
+    </slide>
+
+    <slide>
+      <hgroup>
+        <h2>Packages: matplotlib</h2>
+      </hgroup>
+      <article>
+        <iframe src="http://matplotlib.org/gallery.html" ></iframe>
+      </article>
+    </slide>
+
+    <slide>
+      <hgroup>
+        <h2>Packages: matplotlib (cont'd)</h2>
+      </hgroup>
+      <article>
+        <pre class="prettyprint" data-lang="python">
+from matplotlib import pyplot as pp
+
+data = [x**2 for x in range(100)] # list comprehension!
+pp.plot(data)
+pp.show()
+</pre>
+      <p>LaTeX-integration via <a href="https://github.com/nschloe/matplotlib2tikz">matplotlib2tikz</a>.</p>
+      </article>
+      <aside class="gdbar right bottom"><img src="images/matplotlib_logo.png"></aside>
+    </slide>
+
+    <slide>
+      <hgroup>
+        <h2>Packages: SymPy</h2>
+      </hgroup>
+      <article>
+        Symbolic calculations in Python.<br/>
+        <pre class="prettyprint" data-lang="python">
+import sympy as smp
+
+x, y = smp.symbols('x, y')
+
+f = x**2 + sin(x) * y
+diff(f, x)
+
+diff(f, x, 2)
+</pre>
+     full-featured computer algebra system<br/>
+     <ul>
+     <li>differentiation</li>
+     <li>integration</li>
+     <li>...</li>
+     <ul>
+      </article>
+    <aside class="gdbar right bottom"><img src="images/sympylogo.png"></aside>
+    </slide>
+
+    <slide>
+      <hgroup>
+        <h2>Packages: IPython</h2>
+      </hgroup>
+      <article>
+      IPython provides a rich architecture for interactive computing with:<br/>
+    <img src="images/ipy_0.13.png" style="float:right;margin:0 5px 0 0;" width="400px">
+      <ul>
+<li>Powerful interactive shells (terminal and Qt-based).</li>
+<li>A browser-based notebook with support for code, text, mathematical expressions, inline plots and other rich media.</li>
+<li>Support for interactive data visualization and use of GUI toolkits.</li>
+<li>Flexible, embeddable interpreters to load into your own projects.</li>
+<li>Easy to use, high-performance tools for parallel computing.</li>
+      </ul>
+      </article>
+      <aside class="gdbar right bottom"><img src="images/ipython_logo.jpg"></aside>
+    <footer class="source">source: ipython.org</footer>
+    </slide>
+
+    <slide>
+      <hgroup>
+        <h2>Packages: Miscellaneous</h2>
+      </hgroup>
+      <article>
+        <ul>
+          <li><a href="https://github.com/andrenarchy/krypy">krypy</a> (by André Gaul, TU Berlin) - Krylov subspace methods &amp; tools</li>
+    <img src="images/minres.png" width="300px">
+          <li><a href="https://code.google.com/p/pyamg/">pyamg</a> - algebraic multigrid</li>
+    <img src="images/rootnode_aggregation.png"  width="200px">
+          <li>...</li>
+        </ul>
+      </article>
+    </slide>
+
+  <!--slide class="fill nobackground" style="background-image: url(images/fenics.png)"-->
+  <slide>
+    <article class="flexbox vcenter">
+    <h2>Numerical PDE solving with</h2><br/><br/>
+    <img src="images/fenics.png" width="600px">
+    </article>
+    <footer class="source">source: fenics-project.org</footer>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Solving PDEs with FEM</h2>
+    </hgroup>
+    <article>
+    \[
+    -\Delta u = f
+    \]
+    \[
+    -\int_{\Omega} (\Delta u) v = \int_{\Omega} f v
+    \]
+    \[
+    \int_{\Omega} \nabla u \cdot \nabla v - \int_{\partial\Omega} (\n\cdot\nabla u) v= \int_{\Omega} f v
+    \]
+    With \(v\in V^{(h)}\) (test functions), \(u = \sum_j \alpha_j u_j\), \(u_j\in U^{(h)}\) (trial functions), one gets
+    an equation system for \(\alpha_i\):
+    \[
+    \sum_j \alpha_j \int_{\Omega} \nabla u_j \cdot \nabla v_i - \int_{\partial\Omega} (\n\cdot\nabla u_j) v_i= \int_{\Omega} f v_i \quad \forall v_i\in V^{(h)}.
+    \]
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Solving PDEs with FEM</h2>
+    </hgroup>
+    <article class="flexbox vcenter">
+    \[
+    \sum_j \alpha_j \int_{\Omega} \nabla u_j \cdot \nabla v_i - \int_{\partial\Omega} (\n\cdot\nabla u_j) v_i= \int_{\Omega} f v_i \quad \forall v_i\in V^{(h)}.
+    \]
+      <img src="images/ddg_hat_function.svg" alt="Description" title="Description">
+      <footer class="source">source: http://brickisland.net/cs177/wp-content/uploads/2011/11/ddg_hat_function.svg</footer>
+    </article>
+  </slide>
+
+
+  <!--slide class="segue dark quote nobackground"-->
+  <slide class="fill nobackground" style="background-image: url(images/bjarne.jpg)">
+    <article class="flexbox vleft auto-fadein">
+      <q class="white">
+        Always stay as high-level as possible.
+      </q>
+      <div class="author white">
+        Bjarne Stroustrup<br>
+        Designer of C++
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Common misconceptions (234): Do it yourself</h2>
+    </hgroup>
+    <article class="flexbox vcenter">
+      <img src="images/batmobile.jpg" height="500px" alt="Description" title="Description">
+      <footer class="source">source: wikia.nocookie.net</footer>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Writing your own FEM application</h2>
+    </hgroup>
+    <article>
+    Compute local stiffness matrix:
+    <p><pre class="prettyprint" data-lang="matlab">
+J = [ X(NODES(2),1)-X(NODES(1),1) , X(NODES(3),1)-X(NODES(1),1)  ;
+      X(NODES(2),2)-X(NODES(1),2) , X(NODES(3),2)-X(NODES(1),2)  ];
+AbsDetJ = abs( J(1,1)*J(2,2) - J(1,2)*J(2,1) ) ;
+L = (eps/(2*AbsDetJ)) * [ J(1,2)^2 + J(2,2)^2  , - J(1,1)*J(1,2) - J(2,1)*J(2,2)  ;
+                                     0         ,   J(1,1)^2 + J(2,1)^2       ];
+A = z3A(1,1) =   L(1,1) + 2*L(1,2) + L(2,2) + AbsDetJ/12 ;
+A(1,2) = - L(1,1) - L(1,2)            + AbsDetJ/24 ;
+A(1,3) = - L(1,2) - L(2,2)            + AbsDetJ/24 ;
+
+A(2,1) = - L(1,1) - L(1,2)            + AbsDetJ/24 ;
+A(2,2) =   L(1,1)                     + AbsDetJ/12 ;
+A(2,3) =   L(1,2)                     + AbsDetJ/24 ;
+
+A(3,1) = - L(1,2) - L(2,2)            + AbsDetJ/24 ;
+A(3,2) =   L(1,2)                     + AbsDetJ/12 ;
+A(3,3) =   L(2,2)                     + AbsDetJ/12 ;
+    </pre></p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Writing your own FEM application (cont'd)</h2>
+    </hgroup>
+    <article>
+    Insert into global matrix according to Element Connectivity Table:
+    <p><pre class="prettyprint" data-lang="matlab">
+for r=1:size(ECT,1)
+  localStiffnessMatrix = local_assemble(ECT(r,:),X,eps);
+  for alpha=1:3
+     i = ECT(r,alpha);
+     for beta= 1:3
+        j = ECT(r,beta);
+        K(i,j) = K(i,j) + localStiffnessMatrix(alpha,beta);
+     end
+  end
+end
+    </pre></p>
+    Still missing:
+    <ul>
+    <li>Quadrature of RHS</li>
+    <li>boundary conditions</li>
+    <li>...</li>
+    </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Do it yourself: Reality</h2>
+    </hgroup>
+    <article class="flexbox vcenter">
+      <img src="images/makeshiftcar.jpg" height="500px" alt="Description" title="Description">
+      <footer class="source">source: rofl.to</footer>
+    </article>
+  </slide>
+
+  <!--slide>
+    <hgroup>
+      <h2>The FEniCS project</h2>
+    </hgroup>
+    <article>
+    <ul>
+    <li>Founded 2003 (Univ. of Chicago; Chalmers)</li>
+    <li>People:</li>
+    <ul>
+    <li>Anders Logg</li>
+    <li>Johan Hake</li>
+    <li>Garth Wells</li>
+    <li>Johannes Ring</li>
+    <li>Marie Rognes</li>
+    <li>...</li>
+    </ul>
+    <li>Involved institutions:</li>
+    <ul>
+    <li>Argonne National Laboratory</li>
+    <li>Chalmers University of Technology</li>
+    <li>Delft University of Technology</li>
+    <li>Royal Institute of Technology</li>
+    <li>Simula Research Laboratory</li>
+    <li>University of Cambridge</li>
+    <li>University of Chicago</li>
+    <li>...</li>
+    </ul>
+    </ul>
+    </article>
+  </slide-->
+
+  <!--slide>
+    <hgroup>
+      <h2>The FEniCS project</h2>
+    </hgroup>
+    <article class="flexbox vcenter">
+      <img src="images/fenics-map.png" alt="Description" title="Description">
+      <footer class="source">source: http://fenicsproject.org/</footer>
+    </article>
+  </slide-->
+
+  <slide>
+    <hgroup>
+      <h2>FEniCS</h2>
+    </hgroup>
+    <article>
+    Required: Weak formulation
+    \[
+    \sum_j \alpha_j \left(\int_{\Omega} \nabla u_j \cdot \nabla v_i - \int_{\partial\Omega} (\n\cdot\nabla u_j) v_i\right)= \int_{\Omega} f v_i \quad \forall v_i\in V^{(h)}.
+    \]
+    Then
+    <p><pre class="prettyprint" data-lang="python">
+from dolfin import *
+
+# Create mesh and define function space
+mesh = UnitSquareMesh(20, 20)
+V = FunctionSpace(mesh, 'Lagrange', 1)
+
+# Define boundary conditions
+u0 = Expression('1 + x[0]*x[0] + 2*x[1]*x[1]')
+def u0_boundary(x, on_boundary):
+    return on_boundary
+bc = DirichletBC(V, u0, u0_boundary)
+    </pre></p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>FEniCS (cont'd)</h2>
+    </hgroup>
+    <article>
+    <p><pre class="prettyprint" data-lang="python">
+[...]
+# Define variational problem
+u = TrialFunction(V)
+v = TestFunction(V)
+f = Constant(-6.0)
+a = inner(nabla_grad(u), nabla_grad(v))*dx
+L = f*v*dx
+
+# Compute solution
+u = Function(V)
+solve(a == L, u, bc)
+
+# Plot solution and mesh
+plot(u)
+plot(mesh)
+
+# Dump solution to file in VTK format
+file = File('poisson.pvd')
+file << u
+
+# Hold plot
+interactive()
+    </pre></p>
+    </article>
+  </slide>
+
+    <slide>
+      <hgroup>
+        <h2>Result</h2>
+      </hgroup>
+      <article class="flexbox vcenter">
+        <img src="images/fenics-output.png" width=800px>
+      </article>
+    </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Controlling the solution process</h2>
+    </hgroup>
+    <article>
+    "Make the easy things easy and hard things possible."</br>
+    <p><pre class="prettyprint" data-lang="python">
+prm = parameters['krylov_solver'] # short form
+prm['absolute_tolerance'] = 0.0
+prm['relative_tolerance'] = 1E-13
+prm['maximum_iterations'] = 10000
+prm['monitor_convergence'] = True
+solve(a == L, u, [bc0, bc1],
+      solver_parameters={'linear_solver': 'cg',
+                         'preconditioner': 'ilu'}
+      )
+    </pre></p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Accessing matrix, rhs</h2>
+    </hgroup>
+    <article>
+    Choose the uBLAS backend:
+    <p><pre class="prettyprint" data-lang="python">
+    from dolfin import *
+    parameters['linear_algebra_backend'] = 'uBLAS'
+    [...]
+    a = inner(nabla_grad(u), nabla_grad(v))*dx
+    L = f*v*dx + g*v*ds
+
+    A = assemble(a, bcs=[bc0,bc1])
+    b = assemble(L, bcs=[bc0,bc1])
+    </pre></p>
+    Output:
+    <p><pre class="prettyprint" data-lang="bash">
+$ python ex5.py
+(array([    0,     3,     8, ..., 11433, 11438, 11441]), array([   0,    1,    2, ..., 1678, 1679, 1680]), array([ 1. , -0.5, -0.5, ...,  0. ,  0. ,  1. ]))
+[ 0.00114583  0.0065625   0.         ...,  0.          1.          1.        ]
+    </pre></p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Using a mesh</h2>
+    </hgroup>
+    <article>
+    Typical PDE workflow:
+    <img src="images/spiral.png" alt="Description" title="Description" style="float:right;margin:0 5px 0 0;" width="200px">
+    <ul>
+    <li>Build your mesh: Gmsh, tetgen, CUBIT, ... (formats: VTK, Exodus,...)</li>
+    <li>Feed the mesh into the solver.</li>
+    </ul>
+    <br/>
+    <br/>
+    For your <b>convenience</b>, FEniCS contains simple mesh generators.
+    <p><pre class="prettyprint" data-lang="python">
+UnitSquare(4, 4)
+UnitCube(4, 4, 4)
+Rectangle(a, 0, b, 1, nr, nt, 'crossed')
+[...]
+    </pre></p>
+     <footer class="source">image source: http://geuz.org/gmsh/</footer>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Using a mesh (cont'd)</h2>
+    </hgroup>
+    <article>
+    Convert any mesh into Dolfin's format:
+    <p><pre class="prettyprint" data-lang="bash">
+    $ dolfin-convert mymesh.msh mymesh.xml
+    dolfin-convert mymesh.msh mymesh.xml
+    Converting from Gmsh format (.msh, .gmsh) to DOLFIN XML format
+    Expecting 2001 vertices
+    Found all vertices
+    Expecting 10469 cells
+    Found all cells
+    Conversion done
+
+    $ ls mymesh*.xml
+    mymesh_physical_region.xml  mymesh.xml
+    </pre></p>
+    Then: Run Dolfin with those XML meshes.
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>More problems: Time dependence</h2>
+    </hgroup>
+    <article>
+    Your on your own for time-stepping.<br/>
+    E.g., backward Euler:
+    \[
+    \frac{u^{k} - u^{k-1}}{\delta t} = \Delta u^{k} + f
+    \]
+    \[
+    (I-\delta t \Delta) u^{k} = u^{k-1} + (\delta t) f
+    \]
+    Build weak form, put into FEniCS:
+    <p><pre class="prettyprint" data-lang="python">
+    a = u*v*dx + dt*inner(grad(u), grad(v))*dx
+    L = y_1*v*dx + dt*f*v*dx
+    while t &lt; T:
+        solve(a == L, y)
+        t += dt
+        y_1.assign(y)
+    </pre></p>
+    </article>
+  </slide>
+
+  <!--slide>
+    <hgroup>
+      <h2>Additional ressources</h2>
+    </hgroup>
+    <article>
+    <ul>
+    <li>the FEniCS manual/book (700+ pages), <a href="https://launchpad.net/fenics-book">https://launchpad.net/fenics-book</a></li>
+    <li>the Dolfin page <a href="https://launchpad.net/dolfin">https://launchpad.net/dolfin</a></li>
+    <li>MA477</li>
+    </ul>
+    </article>
+  </slide-->
+
+    <slide class="thank-you-slide segue nobackground">
+        <aside class="gdbar right"><img src="images/matheon-logo-color.svg"></aside>
+        <article class="flexbox vleft auto-fadein">
+            <h2>Thank you!</h2>
+            <p>Questions?</p>
+        </article>
+        <p class="auto-fadein" data-config-contact>
+        <!-- populated from slide_config.json -->
+        </p>
+    </slide>
+
+    <slide class="dark nobackground">
+        <article class="flexbox vcenter">
+            <!--span><img src="images/google_developers_logo_white.png"></span-->
+            <div class="logoslide"><img src="images/matheon-w-text-white.svg"></div>
+        </article>
+    </slide>
+
+    <slide class="backdrop"></slide>
+
+</slides>
+
+<!--script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script-->
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>
